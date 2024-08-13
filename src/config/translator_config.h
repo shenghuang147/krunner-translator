@@ -25,14 +25,27 @@
 
 static const char CONFIG_PRIMARY[] = "primaryLanguage";
 static const char CONFIG_SECONDARY[] = "secondaryLanguage";
+
+// baidu
 static const char CONFIG_BAIDU_APPID[] = "baiduAPPID";
 static const char CONFIG_BAIDU_APIKEY[] = "baiduAPIKey";
+static const char CONFIG_BAIDU_ENABLE[] = "baiduEnable";
+
+// youdao
 static const char CONFIG_YOUDAO_APPID[] = "youdaoAPPID";
 static const char CONFIG_YOUDAO_APPSEC[] = "youdaoAPPSec";
-static const char CONFIG_BAIDU_ENABLE[] = "baiduEnable";
 static const char CONFIG_YOUDAO_ENABLE[] = "youdaoEnable";
+
+// deepl
+static const char CONFIG_DEEPL_APIKEY[] = "deeplAPIKey";
+static const char CONFIG_DEEPL_ENABLE[] = "deeplEnable";
+
+// google
 static const char CONFIG_GOOGLE_ENABLE[] = "googleEnable";
+
+// bing
 static const char CONFIG_BING_ENABLE[] = "bingEnable";
+
 
 class TranslatorConfigForm : public QWidget, public Ui::TranslatorConfigUi {
 Q_OBJECT

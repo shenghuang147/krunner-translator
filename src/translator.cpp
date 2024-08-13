@@ -20,6 +20,7 @@
 #include "config/translator_config.h"
 #include "provider/GoogleTranslate.h"
 #include "provider/baidu.h"
+#include "provider/deepl.h"
 #include "provider/youdao.h"
 #include "provider/Bing.h"
 #include <src/translateShellProcess.h>
@@ -96,6 +97,12 @@ void Translator::match(Plasma::RunnerContext &context) {
         connect(&youdao, &Youdao::finished, &youdaoLoop, &QEventLoop::quit);
         youdaoLoop.exec();
     }
+    if (m_deeplEnable) {
+        QEventLoop deeplLoop;
+        Deepl deepl(this, context, text, language, m_deeplAPIKey);
+        connect(&deepl, &Deepl::finished, &deeplLoop, &QEventLoop::quit);
+        deeplLoop.exec();
+    }
     for (auto engine : engines) {
         Plasma::QueryMatch match = engine->translate(text, language);
         match.setSelectedAction(actions.first());
@@ -127,8 +134,10 @@ void Translator::reloadConfiguration() {
     m_baiduAPIKey = grp.readEntry(CONFIG_BAIDU_APIKEY, QString());
     m_youdaoAPPID = grp.readEntry(CONFIG_YOUDAO_APPID, QString());
     m_youdaoAppSec = grp.readEntry(CONFIG_YOUDAO_APPSEC, QString());
+    m_deeplAPIKey = grp.readEntry(CONFIG_DEEPL_APIKEY, QString());
     m_baiduEnable = grp.readEntry(CONFIG_BAIDU_ENABLE, false);
     m_youdaoEnable = grp.readEntry(CONFIG_YOUDAO_ENABLE, false);
+    m_deeplEnable = grp.readEntry(CONFIG_DEEPL_ENABLE, false);
 
     const bool googleEnable = grp.readEntry(CONFIG_GOOGLE_ENABLE, true);
     if (googleEnable) {

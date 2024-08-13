@@ -1,5 +1,5 @@
 /******************************************************************************
- *  Copyright (C) 2013 – 2018 by David Baum <david.baum@naraesk.eu>           *
+ *  Copyright (C) 2024 by Sheng Huang <shenghuang147@gmail.com>               *
  *                                                                            *
  *  This library is free software; you can redistribute it and/or modify      *
  *  it under the terms of the GNU Lesser General Public License as published  *
@@ -16,39 +16,36 @@
  *  If not, see <http://www.gnu.org/licenses/>.                               *
  *****************************************************************************/
 
-#ifndef TRANSLATOR_H
-#define TRANSLATOR_H
+#ifndef DEEPL_H
+#define DEEPL_H
 
 #include <KRunner/AbstractRunner>
-#include "provider/GoogleTranslate.h"
-#include "LanguageRepository.h"
+#include <QtNetwork/QNetworkReply>
 
-class Translator : public Plasma::AbstractRunner
+/**
+ * API Implementation for Deepl https://developers.deepl.com/docs/api-reference/translate/openapi-spec-for-text-translation)
+ */
+
+class Deepl : public QObject
 {
+
     Q_OBJECT
 
 public:
-    Translator(QObject *parent, const QVariantList &args);
-    void match(Plasma::RunnerContext &) override;
-    void run(const Plasma::RunnerContext &, const Plasma::QueryMatch &) override;
-    QList<QAction *> actionsForMatch(const Plasma::QueryMatch &match) override;
-    void reloadConfiguration() override;
+    Deepl(Plasma::AbstractRunner*, Plasma::RunnerContext&, const QString &, const QPair<QString, QString> &, const QString &);
 
+private Q_SLOTS:
+   void parseResult(QNetworkReply*);
+
+Q_SIGNALS:
+	void finished();
+   
 private:
-    bool parseTerm(const QString &, QString &, QPair<QString, QString> &);
-    QList<QAction *> actions;
-    QString m_primary;
-    QString m_secondary;
-    QString m_baiduAPPID;
-    QString m_baiduAPIKey;
-    QString m_youdaoAPPID;
-    QString m_youdaoAppSec;
-    QString m_deeplAPIKey;
-    bool m_baiduEnable;
-    bool m_youdaoEnable;
-    bool m_deeplEnable;
-    QList<CommandLineEngine*> engines;
-    LanguageRepository languages;
+   Plasma::AbstractRunner * m_runner;
+   QNetworkAccessManager * m_manager;
+   Plasma::RunnerContext m_context;
+   QString langMapper(QString);
 };
+
 
 #endif

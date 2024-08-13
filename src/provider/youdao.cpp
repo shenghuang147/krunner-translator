@@ -91,6 +91,7 @@ void Youdao::parseResult(QNetworkReply *reply) {
             match.setType(Plasma::QueryMatch::InformationalMatch);
             match.setIcon(QIcon::fromTheme("applications-education-language"));
             match.setText(result.toString());
+            match.setSubtext(QStringLiteral("Youdao Translate"));
             match.setMultiLine(true);
             match.setRelevance(relevance);
             matches.append(match);
@@ -105,6 +106,7 @@ void Youdao::parseResult(QNetworkReply *reply) {
                 match.setType(Plasma::QueryMatch::InformationalMatch);
                 match.setIcon(QIcon::fromTheme("applications-education-language"));
                 match.setText(explain.toString());
+                match.setSubtext(QStringLiteral("Youdao Dictionary"));
                 match.setMultiLine(true);
                 match.setRelevance(relevance);
                 matches.append(match);

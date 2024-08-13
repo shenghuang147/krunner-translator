@@ -34,7 +34,7 @@ Plasma::QueryMatch Bing::translate(const QString &text, const QPair<QString, QSt
         match.setIcon(QIcon::fromTheme(QStringLiteral("applications-education-language")));
         match.setText(result);
         match.setMultiLine(true);
-        match.setSubtext(QStringLiteral("Bing"));
+        match.setSubtext(QStringLiteral("Bing Translate"));
         match.setRelevance(1);
     }
     return match;

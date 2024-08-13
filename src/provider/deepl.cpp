@@ -68,6 +68,8 @@ void Deepl::parseResult(QNetworkReply *reply) {
             match.setType(Plasma::QueryMatch::InformationalMatch);
             match.setIcon(QIcon::fromTheme("applications-education-language"));
             match.setText(result.toObject().value("text").toString());
+            match.setMultiLine(true);
+            match.setSubtext(QStringLiteral("Deepl Translate"));
             match.setRelevance(relevance);
             matches.append(match);
             relevance -= 0.01;

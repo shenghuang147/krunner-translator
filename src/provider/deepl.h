@@ -1,5 +1,5 @@
 /******************************************************************************
- *  Copyright (C) 2013 – 2018 by David Baum <david.baum@naraesk.eu>           *
+ *  Copyright (C) 2025 by SHENG HUANG <shenghuang147@gmail.com>               *
  *                                                                            *
  *  This library is free software; you can redistribute it and/or modify      *
  *  it under the terms of the GNU Lesser General Public License as published  *
@@ -16,40 +16,34 @@
  *  If not, see <http://www.gnu.org/licenses/>.                               *
  *****************************************************************************/
 
-#ifndef TRANSLATOR_H
-#define TRANSLATOR_H
-
-#include "provider/GoogleTranslate.h"
-#include "LanguageRepository.h"
+#ifndef DEEPL_H
+#define DEEPL_H
 
 #include <KRunner/AbstractRunner>
-#include <KRunner/Action>
+#include <QNetworkReply>
 
-class Translator : public KRunner::AbstractRunner
+/**
+ * API Implementation for Deepl https://developers.deepl.com/api-reference/translate/request-translation
+ */
+
+class Deepl : public QObject
 {
     Q_OBJECT
 
 public:
-    Translator(QObject *parent, const KPluginMetaData &args);
-    void match(KRunner::RunnerContext &) override;
-    void run(const KRunner::RunnerContext &, const KRunner::QueryMatch &) override;
-    void reloadConfiguration() override;
+    Deepl(KRunner::AbstractRunner*, KRunner::RunnerContext&, const QString &, const QPair<QString, QString> &, const QString &);
+
+private Q_SLOTS:
+   void parseResult(QNetworkReply*);
+
+Q_SIGNALS:
+	void finished();
 
 private:
-    bool parseTerm(const QString &, QString &, QPair<QString, QString> &);
-    QList<KRunner::Action> actions;
-    QString m_primary;
-    QString m_secondary;
-    QString m_baiduAPPID;
-    QString m_baiduAPIKey;
-    QString m_youdaoAPPID;
-    QString m_youdaoAppSec;
-    QString m_deeplAuthKey;
-    bool m_baiduEnable;
-    bool m_youdaoEnable;
-    bool m_deeplEnable;
-    QList<CommandLineEngine *> engines;
-    LanguageRepository languages;
+   KRunner::AbstractRunner *m_runner;
+   QNetworkAccessManager *m_manager;
+   KRunner::RunnerContext m_context;
+   QString langMapper(QString);
 };
 
 #endif

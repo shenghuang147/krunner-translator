@@ -23,6 +23,7 @@
 #include "provider/baidu.h"
 #include "provider/youdao.h"
 #include "provider/Bing.h"
+#include "provider/deepl.h"
 
 #include <KConfigGroup>
 #include <klocalizedstring.h>
@@ -86,6 +87,12 @@ void Translator::match(KRunner::RunnerContext &context) {
         connect(&youdao, &Youdao::finished, &youdaoLoop, &QEventLoop::quit);
         youdaoLoop.exec();
     }
+    if (m_deeplEnable) {
+        QEventLoop deeplLoop;
+        Deepl deepl(this, context, text, language, m_deeplAuthKey);
+        connect(&deepl, &Deepl::finished, &deeplLoop, &QEventLoop::quit);
+        deeplLoop.exec();
+    }
     for (auto engine : engines) {
         auto match = engine->translate(text, language);
         if (match.data().toString() == QStringLiteral("audio")) {
@@ -115,8 +122,10 @@ void Translator::reloadConfiguration() {
     m_baiduAPIKey = grp.readEntry(CONFIG_BAIDU_APIKEY, QString());
     m_youdaoAPPID = grp.readEntry(CONFIG_YOUDAO_APPID, QString());
     m_youdaoAppSec = grp.readEntry(CONFIG_YOUDAO_APPSEC, QString());
+    m_deeplAuthKey = grp.readEntry(CONFIG_DEEPL_AUTH_KEY, QString());
     m_baiduEnable = grp.readEntry(CONFIG_BAIDU_ENABLE, false);
     m_youdaoEnable = grp.readEntry(CONFIG_YOUDAO_ENABLE, false);
+    m_deeplEnable = grp.readEntry(CONFIG_DEEPL_ENABLE, false);
 
     const bool googleEnable = grp.readEntry(CONFIG_GOOGLE_ENABLE, true);
     const bool bingEnable = grp.readEntry(CONFIG_BING_ENABLE, false);

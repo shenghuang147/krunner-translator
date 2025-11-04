@@ -56,15 +56,18 @@ TranslatorConfig::TranslatorConfig(QObject *parent, const KPluginMetaData &args)
     connect(m_ui->baiduApiKey, &QLineEdit::textChanged, this, &TranslatorConfig::markAsChanged);
     connect(m_ui->youdaoAPPID, &QLineEdit::textChanged, this, &TranslatorConfig::markAsChanged);
     connect(m_ui->youdaoAppSec, &QLineEdit::textChanged, this, &TranslatorConfig::markAsChanged);
+    connect(m_ui->deeplAuthKey, &QLineEdit::textChanged, this, &TranslatorConfig::markAsChanged);
     connect(m_ui->baiduEnable, &QCheckBox::checkStateChanged, this, &TranslatorConfig::markAsChanged);
     connect(m_ui->youdaoEnable, &QCheckBox::checkStateChanged, this, &TranslatorConfig::markAsChanged);
     connect(m_ui->googleEnable, &QCheckBox::checkStateChanged, this, &TranslatorConfig::markAsChanged);
     connect(m_ui->bingEnable, &QCheckBox::checkStateChanged, this, &TranslatorConfig::markAsChanged);
+    connect(m_ui->deeplEnable, &QCheckBox::checkStateChanged, this, &TranslatorConfig::markAsChanged);
 
     connect(m_ui->bingEnable, &QCheckBox::checkStateChanged, this, &TranslatorConfig::warningHandler);
     connect(m_ui->googleEnable, &QCheckBox::checkStateChanged, this, &TranslatorConfig::warningHandler);
     connect(m_ui->baiduEnable, &QCheckBox::checkStateChanged, this, &TranslatorConfig::warningHandler);
     connect(m_ui->youdaoEnable, &QCheckBox::checkStateChanged, this, &TranslatorConfig::warningHandler);
+    connect(m_ui->deeplEnable, &QCheckBox::checkStateChanged, this, &TranslatorConfig::warningHandler);
 }
 
 void TranslatorConfig::load() {
@@ -80,10 +83,12 @@ void TranslatorConfig::load() {
     m_ui->baiduApiKey->setText(config.readEntry(CONFIG_BAIDU_APIKEY, ""));
     m_ui->youdaoAPPID->setText(config.readEntry(CONFIG_YOUDAO_APPID, ""));
     m_ui->youdaoAppSec->setText(config.readEntry(CONFIG_YOUDAO_APPSEC, ""));
+    m_ui->deeplAuthKey->setText(config.readEntry(CONFIG_DEEPL_AUTH_KEY, ""));
     m_ui->baiduEnable->setChecked(config.readEntry(CONFIG_BAIDU_ENABLE, false));
     m_ui->youdaoEnable->setChecked(config.readEntry(CONFIG_YOUDAO_ENABLE, false));
     m_ui->googleEnable->setChecked(config.readEntry(CONFIG_GOOGLE_ENABLE, true));
     m_ui->bingEnable->setChecked(config.readEntry(CONFIG_BING_ENABLE, false));
+    m_ui->deeplEnable->setChecked(config.readEntry(CONFIG_DEEPL_ENABLE, false));
 
     markAsChanged();
 }
@@ -98,10 +103,12 @@ void TranslatorConfig::save() {
     config.writeEntry(CONFIG_BAIDU_APIKEY, m_ui->baiduApiKey->text());
     config.writeEntry(CONFIG_YOUDAO_APPID, m_ui->youdaoAPPID->text());
     config.writeEntry(CONFIG_YOUDAO_APPSEC, m_ui->youdaoAppSec->text());
+    config.writeEntry(CONFIG_DEEPL_AUTH_KEY, m_ui->deeplAuthKey->text());
     config.writeEntry(CONFIG_BAIDU_ENABLE, m_ui->baiduEnable->isChecked());
     config.writeEntry(CONFIG_YOUDAO_ENABLE, m_ui->youdaoEnable->isChecked());
     config.writeEntry(CONFIG_GOOGLE_ENABLE, m_ui->googleEnable->isChecked());
     config.writeEntry(CONFIG_BING_ENABLE, m_ui->bingEnable->isChecked());
+    config.writeEntry(CONFIG_DEEPL_ENABLE, m_ui->deeplEnable->isChecked());
 
     config.config()->sync();
 }
@@ -113,7 +120,8 @@ void TranslatorConfig::warningHandler() {
     if (m_ui->bingEnable->isChecked() &&
         !m_ui->googleEnable->isChecked() &&
         !m_ui->baiduEnable->isChecked() &&
-        !m_ui->youdaoEnable->isChecked()) {
+        !m_ui->youdaoEnable->isChecked() &&
+        !m_ui->deeplEnable->isChecked()) {
         m_ui->bingWarningOnlyEngine->show();
     } else {
         m_ui->bingWarningOnlyEngine->hide();
@@ -132,7 +140,8 @@ void TranslatorConfig::warningHandler() {
     if (!m_ui->bingEnable->isChecked() &&
         !m_ui->googleEnable->isChecked() &&
         !m_ui->baiduEnable->isChecked() &&
-        !m_ui->youdaoEnable->isChecked()) {
+        !m_ui->youdaoEnable->isChecked() &&
+        !m_ui->deeplEnable->isChecked()) {
         m_ui->noEngineWarning->show();
     } else {
         m_ui->noEngineWarning->hide();

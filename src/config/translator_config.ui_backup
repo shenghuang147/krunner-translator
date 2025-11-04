@@ -21,7 +21,7 @@
       <string/>
      </property>
      <property name="alignment">
-      <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
+      <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
      </property>
      <property name="flat">
       <bool>false</bool>
@@ -63,27 +63,33 @@
    </item>
    <item>
     <widget class="KMessageWidget" name="noEngineWarning">
-     <property name="text" stdset="0">
+     <property name="text">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;All translation engines are disabled. Enable at least one translation engine to see results.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
-     <property name="wordWrap" stdset="0">
+     <property name="wordWrap">
       <bool>true</bool>
      </property>
-     <property name="closeButtonVisible" stdset="0">
+     <property name="closeButtonVisible">
       <bool>false</bool>
+     </property>
+     <property name="messageType">
+      <enum>KMessageWidget::Error</enum>
      </property>
     </widget>
    </item>
    <item>
     <widget class="KMessageWidget" name="bingWarningOnlyEngine">
-     <property name="text" stdset="0">
+     <property name="text">
       <string>It's not recommended to activate Bing as the only translation engine.</string>
      </property>
-     <property name="wordWrap" stdset="0">
+     <property name="wordWrap">
       <bool>true</bool>
      </property>
-     <property name="closeButtonVisible" stdset="0">
+     <property name="closeButtonVisible">
       <bool>false</bool>
+     </property>
+     <property name="messageType">
+      <enum>KMessageWidget::Warning</enum>
      </property>
     </widget>
    </item>
@@ -127,7 +133,7 @@
         </rect>
        </property>
        <property name="layoutDirection">
-        <enum>Qt::LayoutDirection::LeftToRight</enum>
+        <enum>Qt::LeftToRight</enum>
        </property>
        <property name="title">
         <string/>
@@ -169,7 +175,7 @@
         </rect>
        </property>
        <property name="layoutDirection">
-        <enum>Qt::LayoutDirection::LeftToRight</enum>
+        <enum>Qt::LeftToRight</enum>
        </property>
        <property name="title">
         <string/>
@@ -179,13 +185,13 @@
        </property>
        <layout class="QFormLayout" name="formLayout">
         <property name="fieldGrowthPolicy">
-         <enum>QFormLayout::FieldGrowthPolicy::AllNonFixedFieldsGrow</enum>
+         <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
         </property>
         <property name="rowWrapPolicy">
-         <enum>QFormLayout::RowWrapPolicy::WrapLongRows</enum>
+         <enum>QFormLayout::WrapLongRows</enum>
         </property>
         <property name="labelAlignment">
-         <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop</set>
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
         </property>
         <property name="horizontalSpacing">
          <number>0</number>
@@ -201,14 +207,17 @@
         </property>
         <item row="0" column="0" colspan="2">
          <widget class="KMessageWidget" name="bingWarningReliability">
-          <property name="text" stdset="0">
+          <property name="text">
            <string>Bing Translate works unreliably. It will only sometimes show results.</string>
           </property>
-          <property name="wordWrap" stdset="0">
+          <property name="wordWrap">
            <bool>true</bool>
           </property>
-          <property name="closeButtonVisible" stdset="0">
+          <property name="closeButtonVisible">
            <bool>false</bool>
+          </property>
+          <property name="messageType">
+           <enum>KMessageWidget::Warning</enum>
           </property>
          </widget>
         </item>
@@ -224,78 +233,6 @@
            <bool>false</bool>
           </property>
          </widget>
-        </item>
-       </layout>
-      </widget>
-     </widget>
-     <widget class="QWidget" name="deeplTab">
-      <attribute name="title">
-       <string>Deepl</string>
-      </attribute>
-      <widget class="QGroupBox" name="deepl_group_box">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>500</width>
-         <height>172</height>
-        </rect>
-       </property>
-       <property name="title">
-        <string/>
-       </property>
-       <property name="flat">
-        <bool>true</bool>
-       </property>
-       <layout class="QFormLayout" name="deepl">
-        <property name="leftMargin">
-         <number>6</number>
-        </property>
-        <property name="topMargin">
-         <number>6</number>
-        </property>
-        <property name="rightMargin">
-         <number>6</number>
-        </property>
-        <property name="bottomMargin">
-         <number>6</number>
-        </property>
-        <item row="0" column="0" colspan="2">
-         <layout class="QFormLayout" name="deepl_formLayout">
-          <property name="leftMargin">
-           <number>6</number>
-          </property>
-          <property name="topMargin">
-           <number>6</number>
-          </property>
-          <property name="rightMargin">
-           <number>6</number>
-          </property>
-          <property name="bottomMargin">
-           <number>6</number>
-          </property>
-          <item row="0" column="1">
-           <widget class="QCheckBox" name="deeplEnable">
-            <property name="text">
-             <string>Enable</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="deeplAuthKeyLabel">
-            <property name="text">
-             <string>Auth Key</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QLineEdit" name="deeplAuthKey">
-            <property name="echoMode">
-             <enum>QLineEdit::EchoMode::Normal</enum>
-            </property>
-           </widget>
-          </item>
-         </layout>
         </item>
        </layout>
       </widget>
@@ -465,7 +402,6 @@
    <class>KMessageWidget</class>
    <extends>QFrame</extends>
    <header>kmessagewidget.h</header>
-   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

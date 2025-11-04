@@ -20,6 +20,7 @@ set(krunner_translator_SRCS
         src/translator.cpp
         src/provider/baidu.cpp
         src/provider/youdao.cpp
+        src/provider/deepl.cpp
         src/provider/GoogleTranslate.cpp src/provider/GoogleTranslate.h src/translateShellProcess.cpp src/translateShellProcess.h src/provider/Bing.cpp src/provider/Bing.h
         src/LanguageRepository.cpp src/LanguageRepository.h
         src/languages.cpp src/languages.h src/SupportedLanguages.h)
